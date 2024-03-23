@@ -1,30 +1,28 @@
-import {useContext} from "react"
-import { ProductContext } from "../ProductContextData"
-import { useNavigate } from "react-router-dom"
+import { useEffect, useState, useContext } from "react";
+import ProductListing from "../ProductListing";
+import { useLocation } from "react-router-dom";
 
-export default function ProductListing(){
-const context = useContext(ProductContext)
-const navigate = useNavigate();
-    return <ul className="list-group">
-    {
-        context.getProducts().map( p => <li key={p._id} className="list-group-item">
-            <h2>{p.name}</h2>
-            <div>
-                {p.description}
+
+export default function ProductListingPage() {
+    const context = useContext(ProductContext);
+    const [showFlash, setShowFlash] = useState(true);
+    const location = useLocation(); 
+
+    useEffect(()=>{
+        if (location.state?.message) {
+            setTimeout(()=>{
+                setShowFlash(false);
+            }, 5000)
+        }
+    }, [])
+
+    return <>
+        {
+            location.state?.message && showFlash && <div className="alert alert-success">
+                {location.state.message}
             </div>
-            <div>
-                {p.cost}
-                {p.category_id}
-            </div>
-
-            <button className="btn btn-primary mt-3"
-                onClick={()=>{
-                    navigate("/edit/" + p._id);
-                }}
-            
-            >Edit</button>
-        </li>)
-    }
-
-</ul>
+        }
+        <h1>All Products</h1>
+        <ProductListing/>
+    </>
 }

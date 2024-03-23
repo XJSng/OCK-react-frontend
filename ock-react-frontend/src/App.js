@@ -1,17 +1,15 @@
-import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ProductContentData from './ProductContextData';
+import ProductContextData from './ProductContext';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom"
-import ProductListingPage from './products/ProductListingPage';
+import ProductListing from './ProductListing';
 import AddProductPage from './products/AddProductPage';
 import EditProductPage from './products/EditProductPage'
 
 
-function App() {
+export default function App() {
   return (
-    <>
       <div className='container mt-3'>
-        <ProductContentData>
+        <ProductContextData>
           <Router>
             <nav className="navbar navbar-expand-sm bg-light">
               <div className="container-fluid">
@@ -27,15 +25,13 @@ function App() {
 
             </nav>
             <Routes>
-              <Route path='/' element={<ProductListingPage />} />
-              <Route path='/add' element={<AddProductPage />} />
-              <Route path='/edit/:productId' element={<EditProductPage />} />
+              <Route path='/' element={<ProductListing />} />
+              {/* <Route path='/add' element={<AddProductPage />} /> */}
+              {/* <Route path='/edit/:productId' element={<EditProductPage />} /> */}
             </Routes>
           </Router>
-        </ProductContentData>
+        </ProductContextData>
       </div>
-    </>
   );
 }
 
-export default App;
