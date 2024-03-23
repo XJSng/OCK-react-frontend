@@ -2,8 +2,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ProductContextData from './ProductContext';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom"
 import ProductListing from './ProductListing';
-import AddProductPage from './products/AddProductPage';
-import EditProductPage from './products/EditProductPage'
+import AddProductPage from './productsPages/AddProductPage';
+import EditProductPage from './productsPages/EditProductPage'
 
 
 export default function App() {
@@ -26,7 +26,7 @@ export default function App() {
             </nav>
             <Routes>
               <Route path='/' element={<ProductListing />} />
-              {/* <Route path='/add' element={<AddProductPage />} /> */}
+              <Route path='/add' element={<AddProductPage />} />
               {/* <Route path='/edit/:productId' element={<EditProductPage />} /> */}
             </Routes>
           </Router>

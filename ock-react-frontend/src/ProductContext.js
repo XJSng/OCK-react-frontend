@@ -16,10 +16,16 @@ export default function ProductContextData(props){
     }, [])
 
     const context = {
-        getProducts: () => products
-            
+        getProducts: () => products,
 
-}
+        async addProduct(newProduct) {
+            const response = await axios.post(URL + "/products", {
+                ...newReview
+            })
+        }
+    }
+
+
 return <ProductContext.Provider value={context}>
     {props.children}
 </ProductContext.Provider>
