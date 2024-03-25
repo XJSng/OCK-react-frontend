@@ -1,10 +1,12 @@
 import { useState, createContext, useEffect } from "react";
 import axios from "axios";
+// import { useNavigate } from "react-router-dom";
 export const ProductContext = createContext()
 
 const URL = "https://express-product-api.onrender.com/api"
 
 export default function ProductContextData(props){
+    // const navigate = useNavigate();
     const [products, setProducts] = useState([]);
     const [categories,setCategories] = useState([])
     const [tags,setTags] = useState([])
@@ -34,16 +36,18 @@ export default function ProductContextData(props){
                 category_id: parseInt(newProduct.category_id),
                 tags: parseInt(newProduct.tags)
             })
-            newProduct._id = response.data.insertedId
+            newProduct.id = response.data.product.id
+
+            console.log(response.data)
             setProducts([...products,newProduct])
         },
 
-        getProductById(productId) {
-            return products.find(p=> p.id === productId)
+       getProductById(productId) {
+            return products.find( p=>p.id === parseInt(productId))
         },
 
         async editProduct(productId, newProduct) {
-            const response = await axios.put(URL + "products/" + productId, {
+            const response = await axios.put(URL + "/products/" + productId, {
                 ...newProduct,
                 cost: parseInt(newProduct.cost),
                 category_id: parseInt(newProduct.category_id),
@@ -51,13 +55,26 @@ export default function ProductContextData(props){
             })
 
             newProduct.id = productId
-            const index = products.findIndex( p=> p.id === productId)
+            const index = products.findIndex( p=> p.id === parseInt(productId))
             const left = [...products.slice(0, index)]
             const right = [...products.slice(index+1)];
             const modified  =[ ...left, newProduct, ...right];
    
             setProducts(modified);
+        },
+        async deleteProduct(productId){
+            if (products.find( p=>p.id === parseInt(productId))) {
+            await axios.delete(URL + "/products/" + productId)
+            const indexToDelete = products.findIndex( p=> p.id === parseInt(productId))
+            const modified = [...products.slice(0, indexToDelete), ...products.slice(indexToDelete+1)];
+            setProducts(modified);
+        } else {
+           console.log(products)
+
         }
+        }
+
+
     }
 
 // The get context is stored in the value

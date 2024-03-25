@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom"
 import ProductListing from './ProductListing';
 import AddProductPage from './productsPages/AddProductPage';
 import EditProductPage from './productsPages/EditProductPage'
+import DeleteProductPage from './productsPages/DeleteProductPage'
 
 
 export default function App() {
@@ -28,6 +29,7 @@ export default function App() {
               <Route path='/' element={<ProductListing />} />
               <Route path='/add' element={<AddProductPage />} />
               <Route path='/edit/:productId' element={<EditProductPage />} />
+              <Route path='/delete/:productId' element={<DeleteProductPage/>}/>
             </Routes>
           </Router>
         </ProductContextData>

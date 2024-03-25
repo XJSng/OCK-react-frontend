@@ -4,13 +4,15 @@ import { ProductContext } from '../ProductContext'
 export default function ProductForm (props) {
   const context = useContext(ProductContext)
   const [formState, setFormState] = useState({
-    name: props.initalValue?.name ?? '',
-    cost: props.initalValue?.cost ?? 0,
-    description: props.initalValue?.description ?? '',
-    category_id: props.initalValue?.category_id ?? 1,
-    tags: [],
-    "image_url": props.initalValue?.image_url ?? ''
+    name: props.initialValue?.name ?? '',
+    cost: props.initialValue?.cost ?? 0,
+    description: props.initialValue?.description ?? '',
+    category_id: props.initialValue?.category_id ?? 1,
+    tags: props.initialValue?.tags ??[],
+    "image_url": props.initialValue?.image_url ?? ''
   })
+
+  // console.log(formState);
 
   const [errors, setErrors] = useState({
     name: '',
@@ -38,7 +40,6 @@ export default function ProductForm (props) {
       tags: '',
       "image_url": ''
     }
-    console.log(formState)
     props.onSubmit(formState);
 
     // Add validation here
