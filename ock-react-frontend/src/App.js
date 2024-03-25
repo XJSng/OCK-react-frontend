@@ -27,7 +27,7 @@ export default function App() {
             <Routes>
               <Route path='/' element={<ProductListing />} />
               <Route path='/add' element={<AddProductPage />} />
-              {/* <Route path='/edit/:productId' element={<EditProductPage />} /> */}
+              <Route path='/edit/:productId' element={<EditProductPage />} />
             </Routes>
           </Router>
         </ProductContextData>

@@ -8,20 +8,7 @@ export default function ProductListingPage() {
     const [showFlash, setShowFlash] = useState(true);
     const location = useLocation(); 
 
-    useEffect(()=>{
-        if (location.state?.message) {
-            setTimeout(()=>{
-                setShowFlash(false);
-            }, 5000)
-        }
-    }, [])
-
-    return <>
-        {
-            location.state?.message && showFlash && <div className="alert alert-success">
-                {location.state.message}
-            </div>
-        }
+    return <>   
         <h1>All Products</h1>
         <ProductListing/>
     </>

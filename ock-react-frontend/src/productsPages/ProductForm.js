@@ -1,94 +1,119 @@
-import {useState} from "react"
+import { useContext, useState } from 'react'
+import { ProductContext } from '../ProductContext'
 
-export default function ProductForm(props) {
-const [formState, setFormState] = useState({
-    "name": "",
-    "cost": 0,
-    "description": "",
-    "category_id": 0,
-    "brand_id": [],
-    "image_url": ""
-});
+export default function ProductForm (props) {
+  const context = useContext(ProductContext)
+  const [formState, setFormState] = useState({
+    name: props.initalValue?.name ?? '',
+    cost: props.initalValue?.cost ?? 0,
+    description: props.initalValue?.description ?? '',
+    category_id: props.initalValue?.category_id ?? 1,
+    tags: [],
+    "image_url": props.initalValue?.image_url ?? ''
+  })
 
-const [errors, setErrors] = useState ({
-    "name": "",
-    "cost": "",
-    "description": "",
-    "category_id": "",
-    "brand_id": "",
-    "image_url": ""
+  const [errors, setErrors] = useState({
+    name: '',
+    cost: '',
+    description: '',
+    category_id: '',
+    tags: '',
+    "image_url": ''
+  })
 
-})
-
-const handleFormField = (event)=>{
+  // Two way binding
+  const handleFormField = e => {
     setFormState({
-        ...formState,
-        [event.target.name]:event.target.value
+      ...formState,
+      [e.target.name]: e.target.value
     })
-}
-const submitForm = (event)=>{
+  }
+
+  const submitForm = (event) => {
     const newErrors = {
-        "name": "",
-    "cost": "",
-    "description": "",
-    "category_id": "",
-    "brand_id": "",
-    "image_url": ""
+      name: '',
+      cost: '',
+      description: '',
+      category_id: '',
+      tags: '',
+      "image_url": ''
     }
+    console.log(formState)
+    props.onSubmit(formState);
 
     // Add validation here
+  }
 
-}
-
-return <>
-<div>
-<label>Product Name:</label>
-<input type="text"
-name="name"
-value={formState.name}
-className="form-control"
-onChange={handleFormField}
-/>
-</div>
-<div>
-<label>Product Cost:</label>
-<input type="text"
-name="cost"
-value={formState.cost}
-className="form-control"
-onChange={handleFormField}
-/>
-</div>
-<div>
-<label>Description:</label>
-<input type="text"
-name="description"
-value={formState.description}
-className="form-control"
-onChange={handleFormField}
-/>
-</div>
-<div>
-<label>Category:</label>
-<input type="text"
-name="category_id"
-value={formState.category_id}
-className="form-control"
-onChange={handleFormField}
-/>
-</div>
-<div>
-<label>Tags:</label>
-<input type="text"
-name="brand_id"
-value={formState.brand_id}
-className="form-control"
-onChange={handleFormField}
-/>
-</div>
-<button className="btn btn-primary mt-3"
-                onClick={submitForm}
-        >{props.label ?? "Submit"}</button>
-</>
-
+  return (
+    <>
+      <div>
+        <label>Product Name:</label>
+        <input
+          type='text'
+          name='name'
+          value={formState.name}
+          className='form-control'
+          onChange={handleFormField}
+        />
+      </div>
+      <div>
+        <label>Product Cost (in cents):</label>
+        <input
+          type='text'
+          name='cost'
+          value={formState.cost}
+          className='form-control'
+          onChange={handleFormField}
+        />
+      </div>
+      <div>
+        <label>Description:</label>
+        <input
+          type='text'
+          name='description'
+          value={formState.description}
+          className='form-control'
+          onChange={handleFormField}
+        />
+      </div>
+      <div>
+        <label htmlFor='category'>Category:</label>
+        <select
+          id='categoryId'
+          name='category_id'
+          value={formState.category_id}
+          onChange={handleFormField}
+          className='form-control'
+          required
+        >
+          {context.getCategories().map(c => (
+            <option key={c._id} value={c._id} name='category_id'>
+              {c.name}
+            </option>
+          ))}
+        </select>
+      </div>
+        <div>
+        <label htmlFor='tags'>Tags:</label>
+        <select
+          id='tags'
+          name='tags'
+          value={formState.tags}
+          onChange={handleFormField}
+          className='form-control'
+          multiple={true}
+        >
+          {context.getTags().map(t => (
+            <option key={t._id} value={t._id}>
+              {t.name}
+            </option>
+          ))}
+        </select>
+     
+      </div>    
+      <button className='btn btn-primary mt-3' onClick={submitForm}>
+        {props.label ?? 'Submit'}
+      </button>
+    </>
+  )
 }
